@@ -1,7 +1,5 @@
 import openai
 import streamlit as st
-from dotenv import load_dotenv
-import os
 
 st.set_page_config("Fitness Connect Gym")
 
@@ -17,7 +15,7 @@ st.markdown(
     "You can ask me any question to Fitness Connect Gym and i will try to answer it. If i don't know the answer, i will ask you to rephrase the question. If you want to know more about the gym, you can ask me questions like 'What are the gym timings?' or 'What are the gym facilities?'"
 )
 
-openai.api_key = os.environ.get("OPENAI_API_KEY")
+openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 if "openai_model" not in st.session_state:
     st.session_state["openai_model"] = "gpt-3.5-turbo"
