@@ -12,7 +12,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 
 #Testing ngrok and gunicorn
-CMD gunicorn --bind 0.0.0.0:5003 wsgi:app
+CMD gunicorn --bind 0.0.0.0:5003 flask_app.wsgi:app
 
 # Make port 5003 available to the world outside this container
 # EXPOSE 5003
