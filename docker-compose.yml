@@ -11,7 +11,7 @@ services:
   flask:
     build: ./flask_app
     ports:
-      - "8502:8502"
+      - "5003:5003"
     volumes:
       - ./flask_app:/app
     env_file:
