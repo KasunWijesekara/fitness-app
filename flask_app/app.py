@@ -14,10 +14,12 @@ from langchain.memory import ConversationBufferWindowMemory
 from langchain.chat_models import ChatOpenAI
 
 load_dotenv()
-app = Flask(__name__)
 
-# OpenAI and Facebook credentials
 openai_api_key = os.getenv("OPENAI_API_KEY")
+PAGE_ACCESS_TOKEN = os.getenv("PAGE_ACCESS_TOKEN")
+VERIFY_TOKEN = os.getenv("VERIFY_TOKEN")
+
+app = Flask(__name__)
 
 # Your provided initializations
 global_chat_history = ""
