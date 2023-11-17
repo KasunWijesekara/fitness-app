@@ -1,11 +1,12 @@
 from flask import Flask
+import socket
 
 app = Flask(__name__)
 
 
 @app.route("/")
 def home():
-    return "Hello, World!"
+    return f"Hello, World! Container ID: {socket.gethostname()}"
 
 
 if __name__ == "__main__":
