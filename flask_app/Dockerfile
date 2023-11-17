@@ -10,6 +10,7 @@ COPY . /app
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
+RUN pip install gunicorn
 
 #Testing ngrok and gunicorn
 CMD gunicorn --bind 0.0.0.0:5003 flask_app.wsgi:app
