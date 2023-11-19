@@ -1,5 +1,12 @@
+
+  @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
+
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+
 #chat-container {
-  font-family: 'Arial', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   position: fixed;
   bottom: 20px;
   right: 20px;
@@ -74,6 +81,19 @@
   width: 40px;
   border-radius: 50%;
   font-size: 16px;
+  width: 50px;
+  height: 50px;
+  padding-top: 5px;
+  padding-left: 8px;
+}
+
+.send-img {
+  width: 20px;
+  height: 20px;
+}
+
+#chat-send-button img {
+  filter: invert(1);
 }
 
 /* Hide the default browser focus outline */
@@ -100,7 +120,7 @@
 }
 
 .bot-message {
-  background-color: #e5e5ea;
+  background-color: #cfcfcf;
   color: #333;
   margin-right: auto; 
   margin-bottom: 10px;/* Aligns the message to the left */
@@ -230,11 +250,12 @@
   cursor: pointer;
   font-size: 10px;
   position: absolute;
-  top: 19px;
-  right: 16px;
-  border: 1px solid #4d4d4d;
-  border-radius: 14px;
-  padding: 6px 9px;
+  top: 15px;
+  right: 10px;
+}
+#chat-close-button img {
+  filter: invert(1);
+  zoom:1.4;
 }
 
 /* Optional: change the 'X' button color on hover for better user feedback */
