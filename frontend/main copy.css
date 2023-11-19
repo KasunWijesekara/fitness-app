@@ -198,12 +198,14 @@
 }
 
 #chat-messages {
+  flex-grow: 1;
+  padding: 10px;
+  overflow-y: auto; /* This allows the messages area to scroll */
+  background: #f2f2f2;
+  max-height: 300px; /* This should be smaller than the overall chat container */
   display: flex;
-  flex-direction: column;
-  padding: 10px 20px; /* Adjust padding inside the messages container */
-  max-height: 300px; /* Adjust to your preference */
-  overflow-y: auto;
-  scroll-behavior: smooth;
+  flex-direction: column; /* Messages will be stacked vertically */
+  justify-content: flex-end; 
 }
 
 

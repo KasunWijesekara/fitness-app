@@ -2,8 +2,8 @@
 document.getElementById('chat-container').classList.add('chat-closed');
 
 function updateScroll() {
-  var element = document.getElementById("chat-messages");
-  element.scrollTop = element.scrollHeight; // Scrolls to the bottom
+  var messagesContainer = document.getElementById('chat-messages');
+  messagesContainer.scrollTop = messagesContainer.scrollHeight;
 }
 
 document.getElementById('chat-send-button').addEventListener('click', function() {
