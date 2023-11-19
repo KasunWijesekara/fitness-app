@@ -1,11 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
 
-  @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
-
-body {
-  font-family: 'Open Sans', sans-serif;
-}
-
-#chat-container {
+#mcp_chat-container {
   font-family: 'Open Sans', sans-serif;
   position: fixed;
   bottom: 20px;
@@ -20,12 +15,11 @@ body {
   transform: translateY(100%);
   visibility: hidden;
   opacity: 0;
-
-   z-index: 999;
-  transition: all 0.3s ease; /* Add transition for smooth opening/closing */
+  z-index: 999;
+  transition: all 0.3s ease;
 }
 
-#chat-header {
+#mcp_chat-header {
   background-color: #060912;
   color: #fff;
   padding: 10px;
@@ -33,47 +27,47 @@ body {
   align-items: center;
 }
 
-#chat-header-avatar {
+#mcp_chat-header-avatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
   margin-right: 10px;
 }
 
-#chat-header-text {
+#mcp_chat-header-text {
   flex-grow: 1;
 }
 
-#chat-header-agent-name {
+#mcp_chat-header-agent-name {
   font-weight: bold;
 }
 
-#chat-header-agent-email {
+#mcp_chat-header-agent-email {
   font-size: 0.8em;
   opacity: 0.75;
 }
 
-#chat-messages {
+#mcp_chat-messages {
   flex-grow: 1;
   padding: 10px;
   overflow-y: auto;
   background: #f2f2f2;
 }
 
-#chat-input-container {
+#mcp_chat-input-container {
   border-top: 1px solid #ccc;
   padding: 10px;
   display: flex;
 }
 
-#chat-input {
+#mcp_chat-input {
   flex-grow: 1;
   border: none;
   padding: 10px;
   border-radius: 20px;
 }
 
-#chat-send-button {
+#mcp_chat-send-button {
   background-color: #202a37;
   color: #fff;
   border: none;
@@ -87,56 +81,56 @@ body {
   padding-left: 8px;
 }
 
-.send-img {
+.mcp_send-img {
   width: 20px;
   height: 20px;
 }
 
-#chat-send-button img {
+#mcp_chat-send-button img {
   filter: invert(1);
 }
 
 /* Hide the default browser focus outline */
-#chat-input:focus, #chat-send-button:focus {
+#mcp_chat-input:focus, #mcp_chat-send-button:focus {
   outline: none;
 }
 
-.message {
+.mcp_message {
   display: flex;
   flex-direction: column;
-  max-width: 240px; /* Adjust the width of the bubbles */
-  margin-bottom: 8px; /* Adjust spacing between bubbles */
+  max-width: 240px;
+  margin-bottom: 8px;
   word-wrap: break-word;
-  font-size: 0.9rem; /* Adjust font size as needed */
+  font-size: 0.9rem;
 }
 
-.user-message {
+.mcp_user-message {
   background-color: #202a37;
-    color: #fff;
-    align-self: flex-end;
-    margin-right: 10px; /* Aligns the message to the right */
-    margin-bottom: 10px;
-    font-size: 14px;
+  color: #fff;
+  align-self: flex-end;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  font-size: 14px;
 }
 
-.bot-message {
+.mcp_bot-message {
   background-color: #cfcfcf;
   color: #333;
-  margin-right: auto; 
-  margin-bottom: 10px;/* Aligns the message to the left */
+  margin-right: auto;
+  margin-bottom: 10px;
 }
 
 /* Additional styles for message content for better readability */
-.message-content {
-  word-wrap: break-word; /* Ensures the text breaks to prevent overflow */
+.mcp_message-content {
+  word-wrap: break-word;
   padding: 5px;
 }
 
-#chat-container {
-  min-height: 400px; /* Set a minimum height for the chat container */
-  /* ... other styles ... */
+#mcp_chat-container {
+  min-height: 400px;
 }
-#chat-toggle {
+
+#mcp_chat-toggle {
   position: fixed;
   bottom: 20px;
   right: 20px;
@@ -145,57 +139,57 @@ body {
   border: none;
   border-radius: 50%;
   width: 50px;
-  z-index: 1001;
+  z-index: 999;
   height: 50px;
   cursor: pointer;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-.chat-closed {
-  transform: translateY(100%); /* Moves the chatbox off-screen */
-  visibility: hidden; /* Ensures the chatbox is not interactable when closed */
-  opacity: 0; /* For a fade effect */
+.mcp_chat-closed {
+  transform: translateY(100%);
+  visibility: hidden;
+  opacity: 0;
 }
 
-.chat-open {
-  display: none; /* Hide the toggle button when the chat is open */
-}
-
-/* Add styles to show the chatbox when it's open */
-#chat-container:not(.chat-closed) {
-  transform: translateY(0);
-  visibility: visible;
-  opacity: 1;/* For a fade effect */
-}
-
-
-
-/* To only show the toggle button when the chat is closed */
-#chat-toggle.chat-open {
+.mcp_chat-open {
   display: none;
 }
 
+#mcp_chat-container:not(.mcp_chat-closed) {
+  transform: translateY(0);
+  visibility: visible;
+  opacity: 1;
+}
 
-.message {
+#mcp_chat-toggle.mcp_chat-open {
+  display: none;
+}
+
+.mcp_message {
   display: flex;
   max-width: 80%;
   margin-bottom: 10px;
   word-wrap: break-word;
 }
 
-.user-message, .bot-message {
+.mcp_user-message, .mcp_bot-message {
   border-radius: 16px;
-    padding: 12px 15px; /* Adjust padding for bubbles */
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  padding: 12px 15px; /* Adjust padding for bubbles */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
 }
 
-.user-message {
+.mcp_user-message {
   background-color: #202a37;
   color: #fff;
   align-self: flex-end;
 }
 
-.user-message::after {
+#mcp_typing-area {
+  background-color: #f2f2f2;
+}
+
+.mcp_user-message::after {
   content: '';
   position: absolute;
   bottom: 0;
@@ -209,25 +203,7 @@ body {
   margin-bottom: -10px;
 }
 
-.bot-message {
-  background-color: #e5e5ea;
-    color: #333;
-    align-self: flex-start;
-    margin-left: 10px;
-    font-size: 14px;
-}
-
-#chat-messages {
-  display: flex;
-  flex-direction: column;
-  padding: 10px 20px; /* Adjust padding inside the messages container */
-  max-height: 300px; /* Adjust to your preference */
-  overflow-y: auto;
-  scroll-behavior: smooth;
-}
-
-
-.bot-message::after {
+.mcp_bot-message::after {
   content: '';
   position: absolute;
   bottom: 0;
@@ -241,8 +217,16 @@ body {
   margin-bottom: -10px;
 }
 
+#mcp_chat-messages {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 20px; /* Adjust padding inside the messages container */
+  max-height: 300px; /* Adjust to your preference */
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
 
-#chat-close-button {
+#mcp_chat-close-button {
   background-color: transparent;
   border: none;
   color: #fff;
@@ -253,22 +237,18 @@ body {
   top: 15px;
   right: 10px;
 }
-#chat-close-button img {
+
+#mcp_chat-close-button img {
   filter: invert(1);
   zoom:1.4;
 }
 
 /* Optional: change the 'X' button color on hover for better user feedback */
-#chat-close-button:hover {
+#mcp_chat-close-button:hover {
   color: #ddd;
 }
 
-#chat-messages {
-  transition: opacity 0.3s ease-in-out;
-  opacity: 0;
-}
-
-.typing-indicator {
+.mcp_typing-indicator {
   display: flex;
   justify-content: center;
   flex-direction: row-reverse;
@@ -276,17 +256,13 @@ body {
   margin-left: 10px;
   align-items: center;
   padding: 12px 15px;
-  background-color: #e5e5ea;
+  background-color: #cfcfcf;
   border-radius: 16px;
   margin: 10px 10px 10px 30px; /* Adjust margin to align it to the right like bot messages */
   max-width: 15%; /* Same as other message bubbles */
 }
 
-#typing-area {
-  background-color: #f2f2f2;
-}
-
-.dot {
+.mcp_dot {
   width: 8px;
   height: 8px;
   background-color: #333;
@@ -295,8 +271,8 @@ body {
   animation: typing 1.4s infinite both;
 }
 
-.dot:nth-child(1) { animation-delay: -0.32s; }
-.dot:nth-child(2) { animation-delay: -0.16s; }
+.mcp_dot:nth-child(1) { animation-delay: -0.32s; }
+.mcp_dot:nth-child(2) { animation-delay: -0.16s; }
 
 @keyframes typing {
   0% { transform: translateY(0); }
@@ -304,27 +280,23 @@ body {
   44% { transform: translateY(0); }
 }
 
-#brand-container {
+#mcp_brand-container {
   text-align: center;
   padding-top: 5px;
   padding-bottom: 5px;
   background: #e1e1e1;
   font-size: 14px;
   font-weight: 600;
-  text-decoration: none;/* Optional padding at the bottom */
+  text-decoration: none; /* Optional padding at the bottom */
 }
 
-#brand-name {
+#mcp_brand-name {
   font-size: 0.8em; /* Adjust the size of your brand name text as needed */
   color: #202a37; /* Brand color, you can change this */
   text-decoration: none!important; /* Remove the underline from the link */
   /* You can add :hover style to make it clear it's clickable */
 }
 
-#brand-name span {
-  font-weight: 400;
-}
-
-#brand-name:hover {
+#mcp_brand-name:hover {
   text-decoration: underline; /* Re-add underline on hover to indicate a link */
 }
