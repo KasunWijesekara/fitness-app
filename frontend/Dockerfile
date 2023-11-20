@@ -1,4 +1,4 @@
-Use an official Python runtime as a parent image
+#Use an official Python runtime as a parent image
 FROM python:3.9
 
 # Set the working directory in the container to /app
@@ -14,4 +14,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 5000
 
 # Run app.py when the container launches
-CMD ["gunicorn", "-b", "0.0.0.0:2000", "app:app"]
+CMD ["gunicorn", "-b", "0.0.0.0:2000", "chatapp:app"]
