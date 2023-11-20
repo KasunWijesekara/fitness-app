@@ -17,6 +17,15 @@ services:
     env_file:
       - .env
 
+  frontend:
+    build: ./frontend/chatapp
+    ports:
+      - "2000:2000" # Expose port 2000 to the host
+    volumes:
+      - ./frontend/chatapp:/app
+    env_file:
+      - .env
+
   nginx:
     build:
       context: ./nginx
@@ -30,3 +39,4 @@ services:
     depends_on:
       - flask
       - streamlit
+      - frontend
