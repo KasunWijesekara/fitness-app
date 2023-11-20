@@ -28,7 +28,7 @@ function sendMessage(message) {
   showTypingIndicator();
 
   // Send the message to the Flask backend
-  fetch('https://01api.online/frontend/chatbot/message', {
+  fetch('https://web.01api.online/frontend/chatbot/message', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
