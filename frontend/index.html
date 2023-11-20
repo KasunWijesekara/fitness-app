@@ -73,7 +73,7 @@ function sendMessage(message) {
   showTypingIndicator();
 
   // Send the message to the Flask backend
-  fetch('http://127.0.0.1:5000/chatbot/message', {
+  fetch('http://157.230.244.115/frontend/chatbot/message', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

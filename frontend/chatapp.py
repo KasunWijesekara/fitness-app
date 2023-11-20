@@ -11,6 +11,7 @@ load_dotenv()
 AUTHORIZED_TOKENS = {"abc123": "website1.com", "xyz789": "website2.com"}
 
 app = Flask(__name__)
+CORS(app)
 chatbot_blueprint = Blueprint("chatbot", __name__)
 
 
