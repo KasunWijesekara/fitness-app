@@ -1,21 +1,28 @@
 version: "3"
 
 services:
-  webhook:
+  streamlit:
+    build: ./streamlit_app
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./streamlit_app:/app
+
+  flask:
     build: ./flask_app
     ports:
-      - "5000:5000" # Expose port 5000 to the host
+      - "5000"
     volumes:
       - ./flask_app:/app
     env_file:
       - .env
 
   frontend:
-    build: ./frontend/chatapp
+    build: ./frontend
     ports:
       - "2000:2000" # Expose port 2000 to the host
     volumes:
-      - ./frontend/chatapp:/app
+      - ./frontend:/app
     env_file:
       - .env
 
@@ -30,5 +37,6 @@ services:
       - ./nginx:/etc/nginx/conf.d
       - /etc/letsencrypt:/etc/letsencrypt
     depends_on:
-      - webhook
+      - flask
+      - streamlit
       - frontend
