@@ -46,7 +46,7 @@ def chat_with_bot():
 
 
 # Register the blueprint after all routes have been added
-app.register_blueprint(chatbot_blueprint, url_prefix="/chatbot")
+app.register_blueprint(chatbot_blueprint, url_prefix="/frontend/chatbot")
 CORS(app)
 
 if __name__ == "__main__":
