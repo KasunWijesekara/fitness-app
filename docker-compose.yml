@@ -17,13 +17,6 @@ services:
     env_file:
       - .env
 
-  frontend:
-    build: ./frontend
-    ports:
-      - "5001:5000"
-    volumes:
-      - ./frontend:/app
-
   nginx:
     build:
       context: ./nginx
