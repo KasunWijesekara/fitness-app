@@ -11,18 +11,9 @@ services:
   flask:
     build: ./flask_app
     ports:
-      - "5000:5000"
+      - "5000"
     volumes:
       - ./flask_app:/app
-    env_file:
-      - .env
-
-  frontend:
-    build: ./frontend
-    ports:
-      - "2000:2000"
-    volumes:
-      - ./frontend:/app
     env_file:
       - .env
 
@@ -39,4 +30,3 @@ services:
     depends_on:
       - flask
       - streamlit
-      - frontend
