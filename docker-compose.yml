@@ -20,7 +20,7 @@ services:
   frontend:
     build: ./frontend
     ports:
-      - "2000:2000" # Expose port 2000 to the host
+      - "2000" # Expose port 2000 to the host
     volumes:
       - ./frontend:/app
     env_file:
