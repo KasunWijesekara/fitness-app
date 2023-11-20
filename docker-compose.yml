@@ -18,11 +18,11 @@ services:
       - .env
 
   frontend:
-    build: ./frontend/chatapp
+    build: ./frontend
     ports:
       - "2000:2000" # Expose port 2000 to the host
     volumes:
-      - ./frontend/chatapp:/app
+      - ./frontend:/app
     env_file:
       - .env
 
