@@ -28,7 +28,7 @@ function sendMessage(message) {
   showTypingIndicator();
 
   // Send the message to the Flask backend
-  fetch('http://157.230.244.115/frontend/chatbot/message', {
+  fetch('https://01api.online/frontend/chatbot/message', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -37,14 +37,13 @@ function sendMessage(message) {
   })
   .then(response => response.json())
   .then(data => {
-    setTimeout(() => {
-      displayBotMessage(data.response);
-    }, 1000);
+      setTimeout(() => {
+        displayBotMessage(data.response);
+      }, 1000);
   })
   .catch((error) => {
     console.error('Error:', error);
   });
-}
 
 function showTypingIndicator() {
   document.getElementById('mcp_typing-indicator').style.display = 'flex';
