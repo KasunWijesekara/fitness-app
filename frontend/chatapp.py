@@ -35,7 +35,6 @@ def chat_with_bot():
     )
     response_message = response.choices[0].message["content"].strip()
     response = make_response(jsonify({"response": response_message}))
-    response.headers["Access-Control-Allow-Origin"] = "*"
     return response
 
 
