@@ -14,6 +14,8 @@ app = Flask(__name__)
 CORS(app)
 chatbot_blueprint = Blueprint("chatbot", __name__)
 
+CORS(app, origins=["http://157.230.244.115"])
+
 
 @app.route("/")
 def index():
