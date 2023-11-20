@@ -1,0 +1,5 @@
+flask
+python-dotenv
+requests
+langchain
+openai==0.27.0

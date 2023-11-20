@@ -22,6 +22,8 @@ function sendMessage(message) {
   userMessageDiv.className = 'mcp_user-message'; // Update class if needed
   messagesContainer.appendChild(userMessageDiv);
 
+  document.getElementById('mcp_chat-input').disabled = true;
+  
   // Display typing indicator
   showTypingIndicator();
 
@@ -64,6 +66,9 @@ function displayBotMessage(message) {
 
   // Scroll to the bottom of the messages container
   messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+  // Re-enable the input box
+  document.getElementById('mcp_chat-input').disabled = false;
 
   // Scroll to the bottom of the messages container
   updateScroll();
