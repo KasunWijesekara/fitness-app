@@ -46,7 +46,7 @@ async def chat_with_bot():
             max_tokens=500,
             temperature=0.1,
         )
-        response_message = response.choices[0].message["content"].strip()
+        response_message = response.choices[0].message.content.strip()
     except APIConnectionError as e:
         app.logger.error("Server could not be reached: " + str(e))
         return make_response(jsonify({"error": "Server could not be reached"}), 503)
