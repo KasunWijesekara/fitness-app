@@ -1,5 +1,7 @@
 import os
 from dotenv import load_dotenv
+import logging
+
 
 from flask import Flask, request, jsonify, make_response
 from flask.blueprints import Blueprint
@@ -7,6 +9,7 @@ from flask_cors import CORS
 import openai
 
 load_dotenv()
+logging.basicConfig(level=logging.DEBUG)
 
 AUTHORIZED_TOKENS = {"abc123": "website1.com", "xyz789": "website2.com"}
 
