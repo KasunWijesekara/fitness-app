@@ -6,7 +6,7 @@ import asyncio
 from flask import Flask, request, jsonify, make_response
 from flask.blueprints import Blueprint
 from flask_cors import CORS
-from openai import OpenAI, APIConnectionError, RateLimitError, APIStatusError
+from openai import AsyncOpenAI, APIConnectionError, RateLimitError, APIStatusError
 
 load_dotenv()
 logging.basicConfig(level=logging.DEBUG)
@@ -20,7 +20,7 @@ CORS(
 )
 chatbot_blueprint = Blueprint("chatbot", __name__)
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+client = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 
 @app.route("/")
@@ -39,7 +39,7 @@ async def chat_with_bot():
             messages=[
                 {
                     "role": "system",
-                    "content": "You are a helpful assitant that helps the user.",
+                    "content": "You are a helpful assistant that helps the user.",
                 },
                 {"role": "user", "content": user_message},
             ],
