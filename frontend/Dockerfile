@@ -14,4 +14,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 2000
 
 # Run app.py when the container launches
-CMD ["gunicorn", "--bind", "0.0.0.0:2000", "--access-logfile", "-", "--error-logfile", "-", "--log-level", "debug", "chatapp:app"]
+CMD ["gunicorn", "--workers=3", "--bind", "0.0.0.0:2000", "--access-logfile", "-", "--error-logfile", "-", "--log-level", "debug", "chatapp:app"]
