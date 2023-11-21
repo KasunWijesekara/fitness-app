@@ -1,6 +1,8 @@
 import os
 from dotenv import load_dotenv
+
 import logging
+import time
 
 
 from flask import Flask, request, jsonify, make_response
@@ -30,6 +32,7 @@ def index():
 
 @chatbot_blueprint.route("/message", methods=["POST"])
 def chat_with_bot():
+    start_time = time.time()
     openai.api_key = os.getenv("OPENAI_API_KEY")
     user_message = request.json.get("message", "")
     response = openai.ChatCompletion.create(
@@ -90,6 +93,8 @@ User: What's the best time to visit the gym for a workout?
         max_tokens=150,
         temperature=0,
     )
+    end_time = time.time()
+    app.logger.info(f"Time taken: {end_time - start_time} seconds")
     response_message = response.choices[0].message["content"].strip()
     response = make_response(jsonify({"response": response_message}))
     return response
