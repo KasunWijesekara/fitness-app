@@ -17,9 +17,7 @@ app = Flask(__name__)
 CORS(
     app,
     resources={
-        r"/frontend/chatbot/message": {
-            "origins": "http://dev.apsarasarts.com.dream.website"
-        }
+        r"/frontend/chatbot/message": {"origins": "https://fitnessconnection.lk/"}
     },
 )
 chatbot_blueprint = Blueprint("chatbot", __name__)
