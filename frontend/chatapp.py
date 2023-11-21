@@ -90,8 +90,8 @@ User: What's the best time to visit the gym for a workout?
             },
             {"role": "user", "content": user_message},
         ],
-        max_tokens=150,
-        temperature=0,
+        max_tokens=500,
+        temperature=0.1,
     )
     end_time = time.time()
     app.logger.info(f"Time taken: {end_time - start_time} seconds")
