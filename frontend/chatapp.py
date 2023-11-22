@@ -40,7 +40,7 @@ def chat_with_bot():
     start_time = time.time()
     user_message = request.json.get("message", "")
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
+        model="meta-llama/Llama-2-70b-chat-hf",
         messages=[
             {
                 "role": "system",
