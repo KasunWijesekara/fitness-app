@@ -28,7 +28,7 @@ function sendMessage(message) {
   showTypingIndicator();
 
   // Send the message to the Flask backend
-  fetch('https://5a92-2402-d000-8120-da6f-380e-ab01-ec89-8a1d.ngrok-free.app/frontend/chatbot/message', {
+  fetch('https://web.01api.online/frontend/chatbot/message', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -37,13 +37,15 @@ function sendMessage(message) {
   })
   .then(response => response.json())
   .then(data => {
-      setTimeout(() => {
-        displayBotMessage(data.response);
-      }, 1000);
+    setTimeout(() => {
+      displayBotMessage(data.response);
+      document.getElementById('mcp_chat-input').disabled = false; // Re-enable the input field here
+    }, 1000);
   })
   .catch((error) => {
     console.error('Error:', error);
   });
+}
 
 function showTypingIndicator() {
   document.getElementById('mcp_typing-indicator').style.display = 'flex';
@@ -57,17 +59,18 @@ function hideTypingIndicator() {
 function displayBotMessage(message) {
   // Hide typing indicator
   hideTypingIndicator();
-  var messagesContainer = document.getElementById('mcp_chat-messages');
-  var botMessageDiv = document.createElement('div');
-  botMessageDiv.textContent = message;
-  botMessageDiv.className = 'mcp_bot-message'; // Update class if needed
-  messagesContainer.appendChild(botMessageDiv);
+
+var messagesContainer = document.getElementById('mcp_chat-messages');
+var botMessageDiv = document.createElement('div');
+
+message = message.replace(/\n/g, "<br/>"); // Replace newline characters with <br/> tags
+botMessageDiv.innerHTML = message; // Use innerHTML instead of textContent to render the HTML tags
+
+botMessageDiv.className = 'mcp_bot-message'; // Update class if needed
+messagesContainer.appendChild(botMessageDiv);
 
   // Scroll to the bottom of the messages container
   messagesContainer.scrollTop = messagesContainer.scrollHeight;
-
-  // Re-enable the input box
-  document.getElementById('mcp_chat-input').disabled = false;
 
   // Scroll to the bottom of the messages container
   updateScroll();

@@ -5,7 +5,7 @@
   position: fixed;
   bottom: 20px;
   right: 20px;
-  width: 300px;
+  width: 350px;
   background-color: #fff;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   border-radius: 8px;
@@ -20,16 +20,21 @@
 }
 
 #mcp_chat-header {
-  background-color: #060912;
+  background-color: #001930;
   color: #fff;
   padding: 10px;
   display: flex;
   align-items: center;
+
+  border-top: 1px white solid;
+  border-left: 1px white solid;
+  border-right: 1px white solid;
+  border-radius: 9px;
 }
 
 #mcp_chat-header-avatar {
-  width: 40px;
-  height: 40px;
+  width: 55px;
+  height: 53px;
   border-radius: 50%;
   margin-right: 10px;
 }
@@ -69,19 +74,25 @@
   padding: 10px;
   border-radius: 20px;
   font-size: 14px;
-  color: #333333;
   font-weight: 400;
   font-family: 'Open Sans', sans-serif;
+  padding-top: 10px;
+  margin-bottom: 0;
+  background: white;
+  color: #333333;
+}
+
+#mcp_chat-input::placeholder {
+  color: #333333; /* Replace #yourColor with the color you want */
 }
 
 #mcp_chat-send-button {
-  background-color: #202a37;
+  background-color: #001930;
   color: #fff;
   border: none;
-  width: 40px;
+  width: 30px!important;
+  height: 30px!important;
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
   padding: 13px;
 
 }
@@ -139,9 +150,9 @@
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background-color: #202a37;
+  background-color: #E2E270;
   color: #fff;
-  border: none;
+  border: 3px #fff solid;
   border-radius: 50%;
   z-index: 999;
   height: 50px;
@@ -154,8 +165,8 @@
 }
 
 #mcp_chat-toggle img{
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
 }
 
 .mcp_chat-closed {
@@ -192,6 +203,7 @@
   font-size: 14px;
   font-weight: 500;
   font-family: 'Open Sans', sans-serif;
+  line-height: 20px;
 }
 
 .mcp_user-message {
@@ -202,6 +214,7 @@
 
 #mcp_typing-area {
   background-color: #f2f2f2;
+  padding-top: 10px;
 }
 
 .mcp_user-message::after {
@@ -250,6 +263,7 @@
   position: absolute;
   top: 10px;
   right: 2px;
+  padding: 10px 10px 10px 10px!important;
 }
 
 #mcp_chat-close-button img {
