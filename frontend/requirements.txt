@@ -2,7 +2,7 @@ flask
 python-dotenv
 requests
 langchain
-openai
+openai==0.27.0
 flask_cors
 gunicorn
 gevent
