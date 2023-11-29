@@ -20,7 +20,7 @@ app.secret_key = os.getenv("FLASK_SECRET_KEY")
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # Enable CORS for all routes and all origins
-CORS(app)
+CORS(app, supports_credentials=True)
 
 # Configure SQLAlchemy with the database URI and disable track modifications
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URI")
@@ -47,7 +47,7 @@ def chat_with_bot():
             },
             {"role": "user", "content": user_message},
         ],
-        max_tokens=500,
+        max_tokens=100,
         temperature=0.1,
     )
     end_time = time.time()
@@ -70,8 +70,9 @@ def chat_with_bot():
     db.session.commit()
 
     # Create the response and set the session ID cookie
+    # Create the response and set the session ID cookie
     response = make_response(jsonify({"response": response_message}))
-    response.set_cookie("session_id", session_id)
+    response.set_cookie("session_id", session_id, domain="localhost", samesite="Lax")
 
     return response
 

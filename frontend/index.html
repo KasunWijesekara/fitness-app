@@ -72,24 +72,24 @@ function sendMessage(message) {
   // Display typing indicator
   showTypingIndicator();
 
-  // Send the message to the Flask backend
-  fetch('https://0d16-112-134-219-253.ngrok-free.app/frontend/chatbot/message', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ message: message }),
-  })
-  .then(response => response.json())
-  .then(data => {
-    setTimeout(() => {
-      displayBotMessage(data.response);
-    }, 1000);
-  })
-  .catch((error) => {
-    console.error('Error:', error);
-  });
-}
+// Send the message to the Flask backend
+fetch('https://0d16-112-134-219-253.ngrok-free.app/frontend/chatbot/message', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({ message: message }),
+  credentials: 'include', // Include credentials in the request
+})
+.then(response => response.json())
+.then(data => {
+  setTimeout(() => {
+    displayBotMessage(data.response);
+  }, 1000);
+})
+.catch((error) => {
+  console.error('Error:', error);
+});}
 
 function showTypingIndicator() {
   document.getElementById('mcp_typing-indicator').style.display = 'flex';
