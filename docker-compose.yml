@@ -25,6 +25,16 @@ services:
       - ./frontend:/app
     env_file:
       - .env
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: kasun
+      POSTGRES_PASSWORD: 123kasun
+      POSTGRES_DB: fitnessdb
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
 
   nginx:
     build:
