@@ -35,11 +35,25 @@ migrate = Migrate(app, db)
 chatbot_blueprint = Blueprint("chatbot", __name__)
 
 
+def get_client_ip():
+    if "X-Forwarded-For" in request.headers:
+        # The X-Forwarded-For header can contain multiple IP addresses,
+        # so we take the first one
+        return request.headers["X-Forwarded-For"].split(",")[0]
+    else:
+        return request.remote_addr
+
+
 # Define a route for chatting with the bot
 @chatbot_blueprint.route("/message", methods=["POST"])
 def chat_with_bot():
     start_time = time.time()
     user_message = request.json.get("message", "")
+    session_id = request.json.get("session_id", "")
+    if not session_id:
+        session_id = str(uuid.uuid4())
+        app.logger.debug(f"New session ID generated: {session_id}")
+
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
@@ -56,13 +70,8 @@ def chat_with_bot():
     app.logger.info(f"Time taken: {end_time - start_time} seconds")
     response_message = response.choices[0].message["content"].strip()
 
-    # Retrieve or set the session ID
-    session_id = request.cookies.get("session_id")
-    if session_id is None:
-        session_id = str(uuid.uuid4())
-        app.logger.debug(f"New session ID generated: {session_id}")
-
-    ip_address = request.remote_addr
+    # Get the client's IP address using the get_client_ip function
+    ip_address = get_client_ip()
 
     # Save the chat to the database
     new_chat = Chat(
@@ -74,10 +83,8 @@ def chat_with_bot():
     db.session.add(new_chat)
     db.session.commit()
 
-    # Create the response and set the session ID cookie
-    # Create the response and set the session ID cookie
+    # Create the response
     response = make_response(jsonify({"response": response_message}))
-    response.set_cookie("session_id", session_id, domain="localhost", samesite="Lax")
 
     return response
 
