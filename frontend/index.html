@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat Interface</title>
     <link rel="stylesheet" href="main.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script>
 </head>
 <body style="background-color: #090f15;">
   <div id="mcp_starter">
@@ -61,6 +62,10 @@ document.getElementById('mcp_chat-send-button').addEventListener('click', functi
   }
 });
 
+function generateNewSessionId() {
+  return uuid.v4();
+}
+
 function sendMessage(message) {
   // Display the user's message
   var messagesContainer = document.getElementById('mcp_chat-messages');
@@ -69,18 +74,26 @@ function sendMessage(message) {
   userMessageDiv.className = 'mcp_user-message'; // Update class if needed
   messagesContainer.appendChild(userMessageDiv);
 
+   // Get the session ID from local storage
+   var sessionId = localStorage.getItem('sessionId');
+  if (!sessionId) {
+    // Generate a new session ID if one doesn't exist
+    sessionId = generateNewSessionId();
+    localStorage.setItem('sessionId', sessionId);
+  }
+
   // Display typing indicator
   showTypingIndicator();
 
 // Send the message to the Flask backend
-fetch('https://0d16-112-134-219-253.ngrok-free.app/frontend/chatbot/message', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({ message: message }),
-  credentials: 'include', // Include credentials in the request
-})
+fetch('https://web.01api.online/frontend/chatbot/message', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ message: message, session_id: sessionId }),
+    credentials: 'include', // Include credentials in the request
+  })
 .then(response => response.json())
 .then(data => {
   setTimeout(() => {
