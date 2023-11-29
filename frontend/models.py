@@ -10,6 +10,4 @@ class Chat(db.Model):
     ai_response = db.Column(db.String(500), nullable=False)
     session_id = db.Column(db.String(100), nullable=False)
     ip_address = db.Column(db.String(100), nullable=True)
-    timestamp = db.Column(
-        db.DateTime, default=datetime.now(pytz.timezone("Asia/Colombo"))
-    )
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
