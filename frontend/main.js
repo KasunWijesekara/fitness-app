@@ -22,13 +22,11 @@ function sendMessage(message) {
   userMessageDiv.className = 'mcp_user-message'; // Update class if needed
   messagesContainer.appendChild(userMessageDiv);
 
-  document.getElementById('mcp_chat-input').disabled = true;
-  
   // Display typing indicator
   showTypingIndicator();
 
   // Send the message to the Flask backend
-  fetch('https://web.01api.online/frontend/chatbot/message', {
+  fetch('https://0d16-112-134-219-253.ngrok-free.app/frontend/chatbot/message', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -39,7 +37,6 @@ function sendMessage(message) {
   .then(data => {
     setTimeout(() => {
       displayBotMessage(data.response);
-      document.getElementById('mcp_chat-input').disabled = false; // Re-enable the input field here
     }, 1000);
   })
   .catch((error) => {

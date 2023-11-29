@@ -6,7 +6,7 @@
     <title>Chat Interface</title>
     <link rel="stylesheet" href="main.css">
 </head>
-<body>
+<body style="background-color: #090f15;">
   <div id="mcp_starter">
     <button id="mcp_chat-toggle">
       <img src="data:image/svg+xml;base64,PCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4KDTwhLS0gVXBsb2FkZWQgdG86IFNWRyBSZXBvLCB3d3cuc3ZncmVwby5jb20sIFRyYW5zZm9ybWVkIGJ5OiBTVkcgUmVwbyBNaXhlciBUb29scyAtLT4KPHN2ZyB3aWR0aD0iODAwcHgiIGhlaWdodD0iODAwcHgiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBzdHJva2U9IiNmZmZmZmYiPgoNPGcgaWQ9IlNWR1JlcG9fYmdDYXJyaWVyIiBzdHJva2Utd2lkdGg9IjAiLz4KDTxnIGlkPSJTVkdSZXBvX3RyYWNlckNhcnJpZXIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgoNPGcgaWQ9IlNWR1JlcG9faWNvbkNhcnJpZXIiPiA8cGF0aCBkPSJNMTAgMTBIMTdNMTAgMTRIMTdNNyAxMEg3LjAxTTcgMTRINy4wMU0yMS4wMDM5IDEyQzIxLjAwMzkgMTYuOTcwNiAxNi45NzQ1IDIxIDEyLjAwMzkgMjFDOS45Njc1IDIxIDMuMDA0NjMgMjEgMy4wMDQ2MyAyMUMzLjAwNDYzIDIxIDQuNTYzODIgMTcuMjU2MSAzLjkzOTgyIDE2LjAwMDhDMy4zNDA3NiAxNC43OTU2IDMuMDAzOTEgMTMuNDM3MiAzLjAwMzkxIDEyQzMuMDAzOTEgNy4wMjk0NCA3LjAzMzM0IDMgMTIuMDAzOSAzQzE2Ljk3NDUgMyAyMS4wMDM5IDcuMDI5NDQgMjEuMDAzOSAxMloiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4gPC9nPgoNPC9zdmc+" alt="mcp_chat_icon">
@@ -73,7 +73,7 @@ function sendMessage(message) {
   showTypingIndicator();
 
   // Send the message to the Flask backend
-  fetch('https://3bd2-2402-d000-8120-4755-f5b5-d92b-15f9-f5dc.ngrok-free.app/frontend/chatbot/message', {
+  fetch('https://0d16-112-134-219-253.ngrok-free.app/frontend/chatbot/message', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
