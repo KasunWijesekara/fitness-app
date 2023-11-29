@@ -1,6 +1,7 @@
 from flask import Flask, Blueprint, jsonify, make_response, session, request
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from models import Chat
 import os
 import time
@@ -28,6 +29,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 # Initialize SQLAlchemy with the Flask app
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 # Create a blueprint for chatbot routes
 chatbot_blueprint = Blueprint("chatbot", __name__)
@@ -60,11 +62,14 @@ def chat_with_bot():
         session_id = str(uuid.uuid4())
         app.logger.debug(f"New session ID generated: {session_id}")
 
+    ip_address = request.remote_addr
+
     # Save the chat to the database
     new_chat = Chat(
         user_message=user_message,
         ai_response=response_message,
         session_id=session_id,
+        ip_address=ip_address,
     )
     db.session.add(new_chat)
     db.session.commit()
