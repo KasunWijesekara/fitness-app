@@ -10,3 +10,4 @@ flask[async]
 flask_sqlalchemy
 flask_migrate
 psycopg2-binary
+pytz==2021.1
