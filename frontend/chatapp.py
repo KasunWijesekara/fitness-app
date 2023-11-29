@@ -35,6 +35,15 @@ migrate = Migrate(app, db)
 chatbot_blueprint = Blueprint("chatbot", __name__)
 
 
+def get_client_ip():
+    if "X-Forwarded-For" in request.headers:
+        # The X-Forwarded-For header can contain multiple IP addresses,
+        # so we take the first one
+        return request.headers["X-Forwarded-For"].split(",")[0]
+    else:
+        return request.remote_addr
+
+
 # Define a route for chatting with the bot
 @chatbot_blueprint.route("/message", methods=["POST"])
 def chat_with_bot():
@@ -61,7 +70,8 @@ def chat_with_bot():
     app.logger.info(f"Time taken: {end_time - start_time} seconds")
     response_message = response.choices[0].message["content"].strip()
 
-    ip_address = request.remote_addr
+    # Get the client's IP address using the get_client_ip function
+    ip_address = get_client_ip()
 
     # Save the chat to the database
     new_chat = Chat(
