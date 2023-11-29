@@ -3,7 +3,6 @@ from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from models import Chat
 import os
-from flask import make_response
 import time
 import openai
 
@@ -11,17 +10,20 @@ from database import db, app
 from models import Chat
 import uuid
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 # Create Flask app
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY")
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # Enable CORS for all routes and all origins
 CORS(app)
 
 # Configure SQLAlchemy with the database URI and disable track modifications
-app.config[
-    "SQLALCHEMY_DATABASE_URI"
-] = "postgresql://kasun:123kasun@localhost/fitnessdb"
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URI")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 # Initialize SQLAlchemy with the Flask app
@@ -35,7 +37,6 @@ chatbot_blueprint = Blueprint("chatbot", __name__)
 @chatbot_blueprint.route("/message", methods=["POST"])
 def chat_with_bot():
     start_time = time.time()
-    openai.api_key = os.getenv("OPENAI_API_KEY")
     user_message = request.json.get("message", "")
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
@@ -53,26 +54,25 @@ def chat_with_bot():
     app.logger.info(f"Time taken: {end_time - start_time} seconds")
     response_message = response.choices[0].message["content"].strip()
 
-    # Debugging: Log the current session ID
-    app.logger.debug(f"Current session ID: {session.get('uid')}")
-
     # Retrieve or set the session ID
-    if "uid" not in session:
-        session["uid"] = str(uuid.uuid4())  # Import uuid
-        app.logger.debug(
-            f"New session ID generated: {session['uid']}"
-        )  # Log new session ID
+    session_id = request.cookies.get("session_id")
+    if session_id is None:
+        session_id = str(uuid.uuid4())
+        app.logger.debug(f"New session ID generated: {session_id}")
 
     # Save the chat to the database
     new_chat = Chat(
         user_message=user_message,
         ai_response=response_message,
-        session_id=session["uid"],
+        session_id=session_id,
     )
     db.session.add(new_chat)
     db.session.commit()
 
+    # Create the response and set the session ID cookie
     response = make_response(jsonify({"response": response_message}))
+    response.set_cookie("session_id", session_id)
+
     return response
 
 
