@@ -74,11 +74,9 @@ def chat_with_bot():
     session_id = request.cookies.get("session_id")
     if session_id is None:
         session_id = str(uuid.uuid4())
-    app.logger.debug(f"New session ID generated: {session_id}")
+        app.logger.debug(f"New session ID generated: {session_id}")
 
-    ip_address = request.headers.get(
-        "X-Forwarded-For", request.remote_addr
-    )  # Get the client's IP address
+    ip_address = request.remote_addr
 
     # Save the chat to the database
     new_chat = Chat(
