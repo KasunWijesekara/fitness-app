@@ -87,15 +87,13 @@ function sendMessage(message) {
 
 // Send the message to the Flask backend
 fetch('https://web.01api.online/frontend/chatbot/message', {
-  method: 'POST',
-  credentials: 'include',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({
-    message: 'Your message here'
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ message: message, session_id: sessionId }),
+    credentials: 'include', // Include credentials in the request
   })
-})
 .then(response => response.json())
 .then(data => {
   setTimeout(() => {
