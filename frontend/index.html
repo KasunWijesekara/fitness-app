@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat Interface</title>
     <link rel="stylesheet" href="main.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script>
 </head>
-<body>
+<body style="background-color: #090f15;">
   <div id="mcp_starter">
     <button id="mcp_chat-toggle">
       <img src="data:image/svg+xml;base64,PCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4KDTwhLS0gVXBsb2FkZWQgdG86IFNWRyBSZXBvLCB3d3cuc3ZncmVwby5jb20sIFRyYW5zZm9ybWVkIGJ5OiBTVkcgUmVwbyBNaXhlciBUb29scyAtLT4KPHN2ZyB3aWR0aD0iODAwcHgiIGhlaWdodD0iODAwcHgiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBzdHJva2U9IiNmZmZmZmYiPgoNPGcgaWQ9IlNWR1JlcG9fYmdDYXJyaWVyIiBzdHJva2Utd2lkdGg9IjAiLz4KDTxnIGlkPSJTVkdSZXBvX3RyYWNlckNhcnJpZXIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgoNPGcgaWQ9IlNWR1JlcG9faWNvbkNhcnJpZXIiPiA8cGF0aCBkPSJNMTAgMTBIMTdNMTAgMTRIMTdNNyAxMEg3LjAxTTcgMTRINy4wMU0yMS4wMDM5IDEyQzIxLjAwMzkgMTYuOTcwNiAxNi45NzQ1IDIxIDEyLjAwMzkgMjFDOS45Njc1IDIxIDMuMDA0NjMgMjEgMy4wMDQ2MyAyMUMzLjAwNDYzIDIxIDQuNTYzODIgMTcuMjU2MSAzLjkzOTgyIDE2LjAwMDhDMy4zNDA3NiAxNC43OTU2IDMuMDAzOTEgMTMuNDM3MiAzLjAwMzkxIDEyQzMuMDAzOTEgNy4wMjk0NCA3LjAzMzM0IDMgMTIuMDAzOSAzQzE2Ljk3NDUgMyAyMS4wMDM5IDcuMDI5NDQgMjEuMDAzOSAxMloiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4gPC9nPgoNPC9zdmc+" alt="mcp_chat_icon">
@@ -61,6 +62,10 @@ document.getElementById('mcp_chat-send-button').addEventListener('click', functi
   }
 });
 
+function generateNewSessionId() {
+  return uuid.v4();
+}
+
 function sendMessage(message) {
   // Display the user's message
   var messagesContainer = document.getElementById('mcp_chat-messages');
@@ -69,27 +74,35 @@ function sendMessage(message) {
   userMessageDiv.className = 'mcp_user-message'; // Update class if needed
   messagesContainer.appendChild(userMessageDiv);
 
+   // Get the session ID from local storage
+   var sessionId = localStorage.getItem('sessionId');
+  if (!sessionId) {
+    // Generate a new session ID if one doesn't exist
+    sessionId = generateNewSessionId();
+    localStorage.setItem('sessionId', sessionId);
+  }
+
   // Display typing indicator
   showTypingIndicator();
 
-  // Send the message to the Flask backend
-  fetch('https://web.01api.online/frontend/chatbot/message', {
+// Send the message to the Flask backend
+fetch('https://web.01api.online/frontend/chatbot/message', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ message: message }),
+    body: JSON.stringify({ message: message, session_id: sessionId }),
+    credentials: 'include', // Include credentials in the request
   })
-  .then(response => response.json())
-  .then(data => {
-    setTimeout(() => {
-      displayBotMessage(data.response);
-    }, 1000);
-  })
-  .catch((error) => {
-    console.error('Error:', error);
-  });
-}
+.then(response => response.json())
+.then(data => {
+  setTimeout(() => {
+    displayBotMessage(data.response);
+  }, 1000);
+})
+.catch((error) => {
+  console.error('Error:', error);
+});}
 
 function showTypingIndicator() {
   document.getElementById('mcp_typing-indicator').style.display = 'flex';
@@ -103,11 +116,15 @@ function hideTypingIndicator() {
 function displayBotMessage(message) {
   // Hide typing indicator
   hideTypingIndicator();
-  var messagesContainer = document.getElementById('mcp_chat-messages');
-  var botMessageDiv = document.createElement('div');
-  botMessageDiv.textContent = message;
-  botMessageDiv.className = 'mcp_bot-message'; // Update class if needed
-  messagesContainer.appendChild(botMessageDiv);
+
+var messagesContainer = document.getElementById('mcp_chat-messages');
+var botMessageDiv = document.createElement('div');
+
+message = message.replace(/\n/g, "<br/>"); // Replace newline characters with <br/> tags
+botMessageDiv.innerHTML = message; // Use innerHTML instead of textContent to render the HTML tags
+
+botMessageDiv.className = 'mcp_bot-message'; // Update class if needed
+messagesContainer.appendChild(botMessageDiv);
 
   // Scroll to the bottom of the messages container
   messagesContainer.scrollTop = messagesContainer.scrollHeight;

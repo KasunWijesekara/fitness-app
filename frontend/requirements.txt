@@ -2,6 +2,12 @@ flask
 python-dotenv
 requests
 langchain
-openai==0.27.0
+openai==0.28.0
 flask_cors
 gunicorn
+gevent
+flask[async]
+flask_sqlalchemy
+flask_migrate
+psycopg2-binary
+pytz==2021.1

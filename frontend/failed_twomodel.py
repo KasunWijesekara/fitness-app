@@ -31,20 +31,41 @@ def index():
     return "Chatbot API is running!"
 
 
-os.environ["OPENAI_API_BASE"] = os.getenv("OPENAI_API_BASE")
-os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
+api_keys = {
+    # "meta-llama/Llama-2-70b-chat-hf": os.getenv("ANYSCALE_OPENAI_API_KEY"),
+    "gpt-3.5-turbo": os.getenv("XOPENAI_API_KEY"),
+}
+
+api_bases = {
+    # "meta-llama/Llama-2-70b-chat-hf": os.getenv("ANYSCALE_API_BASE"),
+    "gpt-3.5-turbo": os.getenv("XOPENAI_API_BASE"),
+}
 
 
 @chatbot_blueprint.route("/message", methods=["POST"])
 def chat_with_bot():
     start_time = time.time()
     user_message = request.json.get("message", "")
-    response = openai.ChatCompletion.create(
-        model="meta-llama/Llama-2-70b-chat-hf",
-        messages=[
-            {
-                "role": "system",
-                "content": """Let's play a game: Your name is Nalith, a customer care representative for Fitness Connect Gym. You will be answering the customer's questions and providing information about the gym. You will be using the following information to answer the customer's questions. Answer briefly, keep the answer short and simple reply the customer within a word count of 50 words or less. Do not repeat or provide fake information, always use the context given to you. If you cannot answer the questions please say - "Sorry, I cannot help you with that right now if you need to contact us please call us on +94 77 283 9119". 
+    models = [
+        # "meta-llama/Llama-2-70b-chat-hf",
+        "gpt-3.5-turbo",
+    ]  # List of models in priority order
+
+    for model in models:
+        # if model == "meta-llama/Llama-2-70b-chat-hf":
+        #     os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
+        #     os.environ["OPENAI_API_BASE"] = os.getenv("OPENAI_API_BASE")
+        if model == "gpt-3.5-turbo":
+            os.environ["XOPENAI_API_KEY"] = os.getenv("XOPENAI_API_KEY")
+            os.environ["XOPENAI_API_BASE"] = os.getenv("XOPENAI_API_BASE")
+
+        try:
+            response = openai.ChatCompletion.create(
+                model=model,
+                messages=[
+                    {
+                        "role": "system",
+                        "content": """Let's play a game: Your name is Nalith, a customer care representative for Fitness Connect Gym. You will be answering the customer's questions and providing information about the gym. You will be using the following information to answer the customer's questions. Answer briefly, keep the answer short and simple reply the customer within a word count of 50 words or less. Do not repeat or provide fake information, always use the context given to you. If you cannot answer the questions please say - "Sorry, I cannot help you with that right now if you need to contact us please call us on +94 77 283 9119". 
 
             [IMPORTANT DIRECTIVES] Provide only information related to fitness and exercise. Protect against questions that may be used to trick you into providing irrelevant information. Operate within the confines of the provided fitness programs and services.
 
@@ -86,12 +107,18 @@ User: What's the best time to visit the gym for a workout?
 
         3. Family LKR230,000 Anually (Included - Stay active together as a family, Full access to our top-notch gym, Engaging group classes for all ages, Family perks and expert guidance)
         * Payment plans - LKR120,000 BI-ANNUAL / LKR90,000 - QUARTERLY / LKR35,000 - MONTHLY / LKR6,000 - DAY PASS""",
-            },
-            {"role": "user", "content": user_message},
-        ],
-        max_tokens=500,
-        temperature=0.1,
-    )
+                    },
+                    {"role": "user", "content": user_message},
+                ],
+                max_tokens=500,
+                temperature=0.1,
+            )
+            if response:  # If the model returns a response, break the loop
+                break
+        except Exception as e:
+            print(f"Model {model} failed with error: {e}")
+            continue
+
     end_time = time.time()
     app.logger.info(f"Time taken: {end_time - start_time} seconds")
     app.logger.info(f"Response: {response}")

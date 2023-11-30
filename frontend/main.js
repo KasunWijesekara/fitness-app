@@ -22,13 +22,11 @@ function sendMessage(message) {
   userMessageDiv.className = 'mcp_user-message'; // Update class if needed
   messagesContainer.appendChild(userMessageDiv);
 
-  document.getElementById('mcp_chat-input').disabled = true;
-  
   // Display typing indicator
   showTypingIndicator();
 
   // Send the message to the Flask backend
-  fetch('https://web.01api.online/frontend/chatbot/message', {
+  fetch('https://0d16-112-134-219-253.ngrok-free.app/frontend/chatbot/message', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -37,13 +35,14 @@ function sendMessage(message) {
   })
   .then(response => response.json())
   .then(data => {
-      setTimeout(() => {
-        displayBotMessage(data.response);
-      }, 1000);
+    setTimeout(() => {
+      displayBotMessage(data.response);
+    }, 1000);
   })
   .catch((error) => {
     console.error('Error:', error);
   });
+}
 
 function showTypingIndicator() {
   document.getElementById('mcp_typing-indicator').style.display = 'flex';
@@ -57,17 +56,18 @@ function hideTypingIndicator() {
 function displayBotMessage(message) {
   // Hide typing indicator
   hideTypingIndicator();
-  var messagesContainer = document.getElementById('mcp_chat-messages');
-  var botMessageDiv = document.createElement('div');
-  botMessageDiv.textContent = message;
-  botMessageDiv.className = 'mcp_bot-message'; // Update class if needed
-  messagesContainer.appendChild(botMessageDiv);
+
+var messagesContainer = document.getElementById('mcp_chat-messages');
+var botMessageDiv = document.createElement('div');
+
+message = message.replace(/\n/g, "<br/>"); // Replace newline characters with <br/> tags
+botMessageDiv.innerHTML = message; // Use innerHTML instead of textContent to render the HTML tags
+
+botMessageDiv.className = 'mcp_bot-message'; // Update class if needed
+messagesContainer.appendChild(botMessageDiv);
 
   // Scroll to the bottom of the messages container
   messagesContainer.scrollTop = messagesContainer.scrollHeight;
-
-  // Re-enable the input box
-  document.getElementById('mcp_chat-input').disabled = false;
 
   // Scroll to the bottom of the messages container
   updateScroll();
