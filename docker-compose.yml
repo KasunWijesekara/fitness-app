@@ -20,8 +20,8 @@ services:
   frontend:
     build: ./frontend
     ports:
-      - "2000" # Expose port 2000 to the host
-      - "6000:6000"
+      - "2000:2000" # Map port 2000 inside the container to port 2000 on the host machine
+      - "6000:6000" # Map port 6000 inside the container to port 6000 on the host machine
     volumes:
       - ./frontend:/app
     env_file:
