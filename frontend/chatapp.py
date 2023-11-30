@@ -39,12 +39,14 @@ Chat.to_dict = lambda self: {
 
 @app.route("/api/chats", methods=["GET"])
 def get_chats():
-    # Connect to the database and fetch data
-    # This is just a placeholder - replace with your actual database code
-    data = db.session.query(Chat).all()
+    # Query all chats from the database
+    chats = Chat.query.all()
 
-    # Convert data to JSON and return
-    return jsonify([datum.to_dict() for datum in data])
+    # Convert each chat to a dictionary using the to_dict method
+    chats_dict = [chat.to_dict() for chat in chats]
+
+    # Return the chats as JSON
+    return jsonify(chats_dict)
 
 
 migrate = Migrate(app, db)
