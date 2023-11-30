@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, jsonify, make_response, session, request
+from flask import Blueprint, jsonify, make_response, session, request
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -7,7 +7,10 @@ import os
 import time
 import openai
 
-from database import db, app
+from database import (
+    db,
+    app,
+)  # Import the Flask app and the SQLAlchemy instance from database.py
 from models import Chat
 import uuid
 
@@ -15,33 +18,35 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Create Flask app
-app = Flask(__name__)
-app.secret_key = os.getenv("FLASK_SECRET_KEY")
+# Remove the Flask app initialization
+# app = Flask(__name__)
+# app.secret_key = os.getenv("FLASK_SECRET_KEY")
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # Enable CORS for all routes and all origins
 CORS(app, supports_credentials=True)
 
-# Configure SQLAlchemy with the database URI and disable track modifications
-app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URI")
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+# Add a to_dict method to the Chat model
+Chat.to_dict = lambda self: {
+    "id": self.id,
+    "user_message": self.user_message,
+    "ai_response": self.ai_response,
+    "session_id": self.session_id,
+    "ip_address": self.ip_address,
+    "timestamp": self.timestamp.isoformat(),
+}
 
-# Initialize SQLAlchemy with the Flask app
-db = SQLAlchemy(app)
+
+@app.route("/api/chats", methods=["GET"])
+def get_chats():
+    chats = Chat.query.all()
+    return jsonify([chat.to_dict() for chat in chats])
+
+
 migrate = Migrate(app, db)
 
 # Create a blueprint for chatbot routes
 chatbot_blueprint = Blueprint("chatbot", __name__)
-
-
-def get_client_ip():
-    if "X-Forwarded-For" in request.headers:
-        # The X-Forwarded-For header can contain multiple IP addresses,
-        # so we take the first one
-        return request.headers["X-Forwarded-For"].split(",")[0]
-    else:
-        return request.remote_addr
 
 
 # Define a route for chatting with the bot
@@ -49,11 +54,6 @@ def get_client_ip():
 def chat_with_bot():
     start_time = time.time()
     user_message = request.json.get("message", "")
-    session_id = request.json.get("session_id", "")
-    if not session_id:
-        session_id = str(uuid.uuid4())
-        app.logger.debug(f"New session ID generated: {session_id}")
-
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
@@ -70,8 +70,13 @@ def chat_with_bot():
     app.logger.info(f"Time taken: {end_time - start_time} seconds")
     response_message = response.choices[0].message["content"].strip()
 
-    # Get the client's IP address using the get_client_ip function
-    ip_address = get_client_ip()
+    # Retrieve or set the session ID
+    session_id = request.cookies.get("session_id")
+    if session_id is None:
+        session_id = str(uuid.uuid4())
+        app.logger.debug(f"New session ID generated: {session_id}")
+
+    ip_address = request.remote_addr
 
     # Save the chat to the database
     new_chat = Chat(
@@ -83,8 +88,9 @@ def chat_with_bot():
     db.session.add(new_chat)
     db.session.commit()
 
-    # Create the response
+    # Create the response and set the session ID cookie
     response = make_response(jsonify({"response": response_message}))
+    response.set_cookie("session_id", session_id, domain="localhost", samesite="Lax")
 
     return response
 
