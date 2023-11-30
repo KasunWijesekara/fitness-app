@@ -71,12 +71,12 @@ def chat_with_bot():
     response_message = response.choices[0].message["content"].strip()
 
     # Retrieve or set the session ID
-    session_id = request.cookies.get("session_id")
+    session_id = request.json.get("session_id", "")
     if session_id is None:
         session_id = str(uuid.uuid4())
         app.logger.debug(f"New session ID generated: {session_id}")
 
-    ip_address = request.headers.get("X-Real-IP", request.remote_addr)
+    ip_address = request.remote_addr
 
     # Save the chat to the database
     new_chat = Chat(
@@ -102,4 +102,4 @@ app.register_blueprint(chatbot_blueprint, url_prefix="/frontend/chatbot")
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
-    app.run(debug=True, port=5200)
+    app.run(debug=True, port=5100)
