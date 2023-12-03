@@ -54,6 +54,9 @@ migrate = Migrate(app, db)
 # Create a blueprint for chatbot routes
 chatbot_blueprint = Blueprint("chatbot", __name__)
 
+with open("prompt.txt", "r") as file:
+    prompt = file.read()
+
 
 # Define a route for chatting with the bot
 @chatbot_blueprint.route("/message", methods=["POST"])
@@ -65,7 +68,7 @@ def chat_with_bot():
         messages=[
             {
                 "role": "system",
-                "content": "You are a helpful assistant that helps the user.",
+                "content": prompt,
             },
             {"role": "user", "content": user_message},
         ],
