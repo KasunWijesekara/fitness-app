@@ -19,6 +19,12 @@
   transition: all 0.3s ease;
 }
 
+#mcp_char-counter {
+  padding: 10px;
+    font-size: 12px;
+    color: gray;
+}
+
 #mcp_chat-header {
   background-color: #001930;
   color: #fff;
@@ -65,6 +71,7 @@
 #mcp_chat-input-container {
   border-top: 1px solid #ccc;
   padding: 10px;
+  transition: background-color 0.3s ease;
   display: flex;
 }
 
@@ -80,6 +87,7 @@
   margin-bottom: 0;
   background: white;
   color: #333333;
+  transition: background-color 0.3s ease;
 }
 
 #mcp_chat-input::placeholder {
